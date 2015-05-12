@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+		           
+  	<context:annotation-config/>
+    <context:component-scan base-package="com.iasa.ka23.ManagementSystem" />    
+    
+	
+   
+   <!--1. DATABASE-->	
+	<bean id="goodDao" 
+		class="com.iasa.ka23.ManagementSystem.db.HibernateGoodDao">		
+   		<property name="sessionFactory" ref="sessionFactory" /> 
+	</bean>
+	<bean id="goodTypeDao"  
+		class="com.iasa.ka23.ManagementSystem.db.HibernateGoodTypeDao">		
+   		<property name="sessionFactory" ref="sessionFactory" /> 
+	</bean>
+	
+	<bean id="goodRecordDao"  
+		class="com.iasa.ka23.ManagementSystem.db.HibernateGoodRecordDao">
+   		<property name="sessionFactory" ref="sessionFactory" /> 
+	</bean>
+
+	<bean id="basketDao"  
+		class="com.iasa.ka23.ManagementSystem.db.HibernateCustomerBasketDao">
+   		<property name="sessionFactory" ref="sessionFactory" /> 
+	</bean>
+   		
+    <bean id="daoFactory" 
+		class="com.iasa.ka23.ManagementSystem.db.DaoFactoryImpl">
+		<property name="goodDao" ref="goodDao" /> 
+		<property name="goodTypeDao" ref="goodTypeDao" /> 
+		<property name="goodRecordDao" ref="goodRecordDao" /> 	
+		<property name="basketDao" ref="basketDao" /> 		
+	</bean>
+		
+    <bean id="dataSourceConfigHolder" class="com.iasa.ka23.ManagementSystem.db.util.DataSourceConfigHolder">
+	  <property name="driverClassName" value="${jdbc.driverClassName}" />
+      <property name="url" value="${jdbc.url}" />
+    </bean>    
+    
+	<!--  Hibernate session factory -->
+	      <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		   <property name="dataSource" ref="dataSource"/>
+		   <property name="annotatedClasses">
+		     <list>
+		     		  <value>com.iasa.ka23.ManagementSystem.bl.model.Good</value>
+		     		  <value>com.iasa.ka23.ManagementSystem.bl.model.GoodType</value>
+		     		  <value>com.iasa.ka23.ManagementSystem.bl.model.GoodRecord</value>
+		     		  <value>com.iasa.ka23.ManagementSystem.bl.model.CustomerBasket</value>
+			 </list>
+ 		  </property>
+	    <property name="hibernateProperties">
+	       <props>
+    		<prop key="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</prop>
+	         <prop key="hibernate.show_sql">false</prop>
+	         <prop key="hibernate.hbm2ddl.auto">update</prop>
+	         <prop key="hibernate.connection.autocommit">false</prop>
+	         <prop key="hibernate.current_session_context_class">thread</prop>
+	       </props>
+	    </property>	 
+	</bean>
+	
+	<bean id="dataBaseManager"  class="com.iasa.ka23.ManagementSystem.db.util.DataBaseManager">
+		   <property name="dataSource" ref="dataSource"/>
+		   <property name="daoFactory" ref="daoFactory"/>
+		   <property name="sessionFactory" ref="sessionFactory"/>
+		   <property name="user" ref="user"/>
+		   </bean>
+	
+	<!-- 2. Business Logic -->
+	
+	
+   	<bean id="userRole" class="com.iasa.ka23.ManagementSystem.bl.service.UserRole"/>
+	
+   	<bean id="user" class="com.iasa.ka23.ManagementSystem.bl.service.User"/>
+	
+   	<bean id="businessService" class="com.iasa.ka23.ManagementSystem.bl.service.BusinessServiceImpl">
+   		<property name="databaseManager" ref="dataBaseManager"/>
+   		<property name="user" ref="user"/>
+   	</bean>
+	
+   	<!-- 3. OTHER -->	
+   	
+	<bean 
+	   class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	   <property name="location">
+			<value>classpath:db.properties_ms</value>
+	   </property>
+	</bean>	
+</beans>
