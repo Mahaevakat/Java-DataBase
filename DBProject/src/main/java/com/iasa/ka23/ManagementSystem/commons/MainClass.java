@@ -6,7 +6,7 @@ public class MainClass {
 	
 	 public static void main(final String[] args) {
 		SpringContextLoader.loadContext();
-		new MainJFrame().setVisible(true);;
+		new MainJFrame().setVisible(true);
 	}
 }
 
@@ -15,7 +15,5 @@ public class MainClass {
 
 /**
 *TODO
-*	3) START USING MS SQL
-*	4) TURN UI OBJECTS TO SPRING BEANS
 *	5) ADD ASPECTS AND PROXIES FOR INJECTING LOGGERS AND LOGGING
 */

@@ -1,61 +1,36 @@
 package com.iasa.ka23.ManagementSystem.db;
 
 
-import com.iasa.ka23.ManagementSystem.bl.model.CustomerBasket;
-import com.iasa.ka23.ManagementSystem.bl.model.Good;
-import com.iasa.ka23.ManagementSystem.bl.model.GoodRecord;
-import com.iasa.ka23.ManagementSystem.bl.model.GoodType;
+import com.iasa.ka23.ManagementSystem.bl.model.Counterparty;
+import com.iasa.ka23.ManagementSystem.db.util.ManagementSystemDaoException;
 
 public class DaoFactoryImpl implements DaoFactory {	
 	
-	private GenericDao<Good> goodDao;
 
-	private GenericDao<GoodType> goodTypeDao;
+	GenericDao<Counterparty> counterpatyDao;
 	
-	private GenericDao<GoodRecord> goodRecordDao;
-
-	private GenericDao<CustomerBasket> basketDao;
+	private GenericDao<Counterparty> goodDao;
 	
-	public GenericDao<CustomerBasket> getBasketDao() {
-		return basketDao;
+	public GenericDao<Counterparty> getGoodDao() {
+		return counterpatyDao;
 	}
 
-	public void setBasketDao(GenericDao<CustomerBasket> basketDao) {
-		this.basketDao = basketDao;
-	}	
-		
-	public GenericDao<GoodRecord> getGoodRecordDao() {
-		return goodRecordDao;
-	}
-
-	public void setGoodRecordDao(GenericDao<GoodRecord> goodRecordDao) {
-		this.goodRecordDao = goodRecordDao;
-	}
-
-	public GenericDao<Good> getGoodDao() {
-		return goodDao;
-	}
-
-	public void setGoodDao(GenericDao<Good> goodDao) {
+	public void setGoodDao(GenericDao<Counterparty> goodDao) {
 		this.goodDao = goodDao;
 	}
 
-	public GenericDao<GoodType> getGoodTypeDao() {
-		return goodTypeDao;
-	}
-
-	public void setGoodTypeDao(GenericDao<GoodType> goodTypeDao) {
-		this.goodTypeDao = goodTypeDao;
-	}
 
 	@Override
-	public GenericDao<Good> getGoodDaoExtended(){
+	public GenericDao<Counterparty> getGoodDaoExtended(){
 		return goodDao;
 	}
 
+
 	@Override
-	public GenericDao<GoodType> getGoodTypeExtraDao(){
-		return goodTypeDao;
+	public GenericDao<Counterparty> getCounterpartyDao()
+			throws ManagementSystemDaoException {
+		// TODO Auto-generated method stub
+		return null;
 	}	
 
 }

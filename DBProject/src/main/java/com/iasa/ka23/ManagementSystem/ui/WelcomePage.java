@@ -25,7 +25,6 @@ public class WelcomePage extends AbstractInterfaceUnit{
 	
 	private void goFurther() {
 		dismiss();
-		new SampleTable().initComponents();
 	}
 	@Override
 	public void initComponents(){

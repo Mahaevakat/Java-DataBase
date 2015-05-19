@@ -2,7 +2,7 @@ package com.iasa.ka23.ManagementSystem.bl.service;
 
 import java.util.List;
 
-import com.iasa.ka23.ManagementSystem.bl.model.Good;
+import com.iasa.ka23.ManagementSystem.bl.model.Counterparty;
 import com.iasa.ka23.ManagementSystem.db.GenericDao;
 import com.iasa.ka23.ManagementSystem.db.util.DataBaseManager;
 import com.iasa.ka23.ManagementSystem.db.util.ManagementSystemDaoException;
@@ -34,7 +34,7 @@ public class BusinessServiceImpl implements BusinessService{
 		try {
 			//daoFactory = SpringContextLoader.getBean("daoFactory");
 			System.out.println(databaseManager);
-			GenericDao<Good> dao = databaseManager.getGoodDao();
+			GenericDao<Counterparty> dao = databaseManager.getCounterpartyDao();
 			value = dao.getAll().size();
 		} catch (ManagementSystemDaoException e) {
 			// TODO Auto-generated catch block
@@ -44,11 +44,11 @@ public class BusinessServiceImpl implements BusinessService{
 	}
 
 	@Override
-	public List<Good> getAllGoods() {
-		GenericDao<Good> dao;
-		List<Good> result = null;
+	public List<Counterparty> getCounterparties(int onPage, int pageNo) {
+		GenericDao<Counterparty> dao;
+		List<Counterparty> result = null;
 		try {
-			dao = databaseManager.getGoodDao();
+			dao = databaseManager.getCounterpartyDao();
 			result  = dao.getAll();
 		} catch (ManagementSystemDaoException e) {
 			// TODO Auto-generated catch block

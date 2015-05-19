@@ -14,22 +14,9 @@
 	
    
    <!--1. DATABASE-->	
-	<bean id="goodDao" 
-		class="com.iasa.ka23.ManagementSystem.db.HibernateGoodDao">		
-   		<property name="sessionFactory" ref="sessionFactory" /> 
-	</bean>
-	<bean id="goodTypeDao"  
-		class="com.iasa.ka23.ManagementSystem.db.HibernateGoodTypeDao">		
-   		<property name="sessionFactory" ref="sessionFactory" /> 
-	</bean>
-	
-	<bean id="goodRecordDao"  
-		class="com.iasa.ka23.ManagementSystem.db.HibernateGoodRecordDao">
-   		<property name="sessionFactory" ref="sessionFactory" /> 
-	</bean>
 
-	<bean id="basketDao"  
-		class="com.iasa.ka23.ManagementSystem.db.HibernateCustomerBasketDao">
+	<bean id="counterpartyDao"  
+		class="com.iasa.ka23.ManagementSystem.db.HibernateCounterpartyDao">
    		<property name="sessionFactory" ref="sessionFactory" /> 
 	</bean>
    		
