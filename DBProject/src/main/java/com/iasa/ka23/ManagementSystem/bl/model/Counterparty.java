@@ -1,21 +1,18 @@
 package com.iasa.ka23.ManagementSystem.bl.model;
 
 import java.io.Serializable;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="GOOD")
-public class Counterparty implements Serializable, Cloneable {
+@Table(name="dbo.Counterparty")
+public class Counterparty extends IdentifyableBean implements Serializable, Cloneable {
 	
 	/**
 	 * 
@@ -24,27 +21,30 @@ public class Counterparty implements Serializable, Cloneable {
 
 	@Id
     @GeneratedValue
-    @Column(columnDefinition="serial",name="good_id")
+    @Column(columnDefinition="serial",name="id_counterparty")
 	private Integer id;
 	
-	@Column(name="name")
-	private String name;
-
-	/*@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "type_id")
-	private GoodType type;
+	@Column(name="Email")
+	private String email;
 	
-	@OneToMany(mappedBy="good", fetch = FetchType.EAGER)
-	private Set<GoodRecord> records;
+	@Column(name="Phone_number")
+	private String number;
 
-	public GoodType getType() {
-		return type;
+	@OneToOne(fetch = FetchType.LAZY, mappedBy="counterparty")
+	private LegalPerson legalPerson;
+
+	@OneToOne(fetch = FetchType.LAZY, mappedBy="counterparty")
+	private IndividualPerson individualPerson;
+
+	public String getName(){
+		String name = legalPerson.getName();
+		if (name==null){
+		name = individualPerson.getName();
+		}
+		return name;
 	}
-
-	public void setType(GoodType type) {
-		this.type = type;
-	}*/
-
+	
+	@Override
 	public Integer getId() {
 		return id;
 	}
@@ -53,16 +53,28 @@ public class Counterparty implements Serializable, Cloneable {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}	
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-	/*public Set<GoodRecord> getRecords() {
-		return records;
+	public String getNumber() {
+		return number;
+	}
+
+	public void setNumber(String number) {
+		this.number = number;
+	}
+
+	public LegalPerson getLegalPerson() {
+		return legalPerson;
+	}
+
+	public void setLegalPerson(LegalPerson legalPerson) {
+		this.legalPerson = legalPerson;
 	}
 
 	@Override
@@ -70,9 +82,6 @@ public class Counterparty implements Serializable, Cloneable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((records == null) ? 0 : records.hashCode());
-		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
 
@@ -90,26 +99,9 @@ public class Counterparty implements Serializable, Cloneable {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		if (records == null) {
-			if (other.records != null)
-				return false;
-		} else if (!records.equals(other.records))
-			return false;
-		if (type == null) {
-			if (other.type != null)
-				return false;
-		} else if (!type.equals(other.type))
-			return false;
 		return true;
 	}
-
-	public void setRecords(Set<GoodRecord> records) {
-		this.records = records;
-	}		*/
+	
+	
 }
 

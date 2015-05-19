@@ -1,36 +1,34 @@
 package com.iasa.ka23.ManagementSystem.db;
 
+import java.util.Map;
 
-import com.iasa.ka23.ManagementSystem.bl.model.Counterparty;
+import com.iasa.ka23.ManagementSystem.bl.model.IdentifyableBean;
 import com.iasa.ka23.ManagementSystem.db.util.ManagementSystemDaoException;
 
-public class DaoFactoryImpl implements DaoFactory {	
+public class DaoFactoryImpl implements DaoFactory {
 	
+	/**
+	 * map that contains DAO objects
+	 */
+	private Map<Class<? extends IdentifyableBean>,GenericDao<? extends IdentifyableBean>> daos;
 
-	GenericDao<Counterparty> counterpatyDao;
-	
-	private GenericDao<Counterparty> goodDao;
-	
-	public GenericDao<Counterparty> getGoodDao() {
-		return counterpatyDao;
-	}
-
-	public void setGoodDao(GenericDao<Counterparty> goodDao) {
-		this.goodDao = goodDao;
-	}
-
-
+	@SuppressWarnings("unchecked")
 	@Override
-	public GenericDao<Counterparty> getGoodDaoExtended(){
-		return goodDao;
-	}
-
-
-	@Override
-	public GenericDao<Counterparty> getCounterpartyDao()
+	public <T extends IdentifyableBean> GenericDao<T> getDao(final Class<T> classVar)
 			throws ManagementSystemDaoException {
-		// TODO Auto-generated method stub
-		return null;
+		if (daos.containsKey(classVar)){
+			return (GenericDao<T>) daos.get(classVar);
+		}
+		else {
+			GenericDao<T> dao = new HibernateGenericDao<T>(){
+				@Override
+				public Class<T> getType() {
+					return classVar;
+				}};
+			daos.put(classVar, dao);
+			return dao;			
+		}
 	}	
+	
 
 }

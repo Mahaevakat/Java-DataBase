@@ -6,8 +6,7 @@ import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
-
-import com.iasa.ka23.ManagementSystem.bl.model.Counterparty;
+import com.iasa.ka23.ManagementSystem.bl.model.IdentifyableBean;
 import com.iasa.ka23.ManagementSystem.bl.service.User;
 import com.iasa.ka23.ManagementSystem.db.DaoFactory;
 import com.iasa.ka23.ManagementSystem.db.GenericDao;
@@ -50,8 +49,8 @@ public class DataBaseManager {
 		return true;
 	}
 
-	public GenericDao<Counterparty> getCounterpartyDao() throws ManagementSystemDaoException {
-		return daoFactory.getCounterpartyDao();
+	public <T extends IdentifyableBean> GenericDao<T> getDao(Class<T> classVar) throws ManagementSystemDaoException{
+		return daoFactory.getDao(classVar);
 	}
 	
 	public User getUser() {

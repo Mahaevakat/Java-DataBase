@@ -67,17 +67,6 @@ public abstract class HibernateGenericDao <T> implements GenericDao<T> {
 		return result;
 	}	
 	
-	public List<T> getFilteringByName(String query) throws ManagementSystemDaoException {
-		List<T> all = getAll();
-		List<T> result = new ArrayList<T>();
-		for (int i = 0; i < all.size(); i++) {
-	          T good = all.get(i);
-	          if(getName(good).toLowerCase().startsWith(query)) {
-	        	  result.add(good);
-	          }
-		}      
-		return result;
-	}
 	
 	@Override
 	public List<T> getDefaultPaginated(int numberOfPage, int recordsPerPage)
@@ -148,7 +137,5 @@ public abstract class HibernateGenericDao <T> implements GenericDao<T> {
 		}
 		transaction.commit();		
 		return resultList ;
-	}		
-	
-	protected abstract String getName(T object);	
+	}			
 }	

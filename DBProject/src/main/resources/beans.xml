@@ -14,18 +14,9 @@
 	
    
    <!--1. DATABASE-->	
-
-	<bean id="counterpartyDao"  
-		class="com.iasa.ka23.ManagementSystem.db.HibernateCounterpartyDao">
-   		<property name="sessionFactory" ref="sessionFactory" /> 
-	</bean>
    		
     <bean id="daoFactory" 
 		class="com.iasa.ka23.ManagementSystem.db.DaoFactoryImpl">
-		<property name="goodDao" ref="goodDao" /> 
-		<property name="goodTypeDao" ref="goodTypeDao" /> 
-		<property name="goodRecordDao" ref="goodRecordDao" /> 	
-		<property name="basketDao" ref="basketDao" /> 		
 	</bean>
 		
     <bean id="dataSourceConfigHolder" class="com.iasa.ka23.ManagementSystem.db.util.DataSourceConfigHolder">
@@ -38,10 +29,9 @@
 		   <property name="dataSource" ref="dataSource"/>
 		   <property name="annotatedClasses">
 		     <list>
-		     		  <value>com.iasa.ka23.ManagementSystem.bl.model.Good</value>
-		     		  <value>com.iasa.ka23.ManagementSystem.bl.model.GoodType</value>
-		     		  <value>com.iasa.ka23.ManagementSystem.bl.model.GoodRecord</value>
-		     		  <value>com.iasa.ka23.ManagementSystem.bl.model.CustomerBasket</value>
+		     		  <value>com.iasa.ka23.ManagementSystem.bl.model.Counterparty</value>
+		     		  <value>com.iasa.ka23.ManagementSystem.bl.model.LegalPerson</value>
+		     		  <value>com.iasa.ka23.ManagementSystem.bl.model.IndividualPerson</value>
 			 </list>
  		  </property>
 	    <property name="hibernateProperties">

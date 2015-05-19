@@ -34,7 +34,7 @@ public class BusinessServiceImpl implements BusinessService{
 		try {
 			//daoFactory = SpringContextLoader.getBean("daoFactory");
 			System.out.println(databaseManager);
-			GenericDao<Counterparty> dao = databaseManager.getCounterpartyDao();
+			GenericDao<Counterparty> dao = databaseManager.getDao(Counterparty.class);
 			value = dao.getAll().size();
 		} catch (ManagementSystemDaoException e) {
 			// TODO Auto-generated catch block
@@ -48,7 +48,7 @@ public class BusinessServiceImpl implements BusinessService{
 		GenericDao<Counterparty> dao;
 		List<Counterparty> result = null;
 		try {
-			dao = databaseManager.getCounterpartyDao();
+			dao = databaseManager.getDao(Counterparty.class);
 			result  = dao.getAll();
 		} catch (ManagementSystemDaoException e) {
 			// TODO Auto-generated catch block
