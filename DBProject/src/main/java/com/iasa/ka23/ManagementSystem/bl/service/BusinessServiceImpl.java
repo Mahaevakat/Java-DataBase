@@ -52,6 +52,7 @@ public class BusinessServiceImpl implements BusinessService{
 			result  = dao.getAll();
 		} catch (ManagementSystemDaoException e) {
 			// TODO Auto-generated catch block
+			//TODO - change to paginated
 			e.printStackTrace();
 		}
 		return result;
@@ -62,5 +63,16 @@ public class BusinessServiceImpl implements BusinessService{
 		user.setUsername(username);
 		user.setPassword(password);
 		return databaseManager.login();
+	}
+	
+	@Override
+	public void loadUser(){
+		databaseManager.loadUserRole();
+	}
+	
+	@Override
+	public boolean enableAdminFeatures(){
+		UserRole currentUserRole = user.getRole();
+		return (UserRole.ADMIN.equals(currentUserRole));
 	}
 }

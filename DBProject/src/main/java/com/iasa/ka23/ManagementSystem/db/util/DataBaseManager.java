@@ -1,11 +1,17 @@
 package com.iasa.ka23.ManagementSystem.db.util;
 
 import java.sql.SQLException;
+import java.util.List;
 
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
 import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+
 import com.iasa.ka23.ManagementSystem.bl.model.IdentifyableBean;
 import com.iasa.ka23.ManagementSystem.bl.service.User;
 import com.iasa.ka23.ManagementSystem.db.DaoFactory;
@@ -13,6 +19,13 @@ import com.iasa.ka23.ManagementSystem.db.GenericDao;
 
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
+@NamedNativeQueries({
+	@NamedNativeQuery(
+	name = "getUserRole",
+	query = "CALL GetUserRoleByName(:name)",
+	resultClass = String.class
+	)
+})
 public class DataBaseManager {
 	
 	/**
@@ -26,6 +39,8 @@ public class DataBaseManager {
 	private SessionFactory sessionFactory;
 	
 	private DataSource dataSource;
+	
+	private Session session;
 	
 	public boolean login(){
 			return testConnection();
@@ -48,7 +63,15 @@ public class DataBaseManager {
 		}
 		return true;
 	}
-
+	
+	public void loadUserRole(){
+		Query query = session.getNamedQuery("callStockStoreProcedure")
+			.setParameter("name", user.getUsername());
+		@SuppressWarnings("unchecked")
+		List<String> result = (List<String>)query.list();
+		String role = result.get(0);
+		user.setRole(role);
+	}
 	public <T extends IdentifyableBean> GenericDao<T> getDao(Class<T> classVar) throws ManagementSystemDaoException{
 		return daoFactory.getDao(classVar);
 	}

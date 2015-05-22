@@ -2,10 +2,7 @@ package com.iasa.ka23.ManagementSystem.ui;
 
 import javax.swing.JOptionPane;
 
-import com.iasa.ka23.ManagementSystem.bl.service.BusinessService;
-import com.iasa.ka23.ManagementSystem.bl.service.ServiceFactory;
-
-public class MainJFrame extends javax.swing.JFrame {	
+public class MainJFrame extends AbstractInterfaceUnit {	
 	
 	/**
 	 * 
@@ -15,7 +12,7 @@ public class MainJFrame extends javax.swing.JFrame {
 		initComponents ();
 	}
 	// <editor-fold defaultstate="collapsed" desc="Generated Code"> 
-	private void initComponents () {
+	public void initComponents () {
 	
 	jScrollPane1 = new javax.swing.JScrollPane();
 	jLabel1 = new javax.swing.JLabel();
@@ -32,10 +29,10 @@ public class MainJFrame extends javax.swing.JFrame {
 	setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 	
 	jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-	jLabel1.setText("Hello! Welcome to our brand new database. ");
+	jLabel1.setText("Добро пожаловать");
 	jLabel1.setToolTipText("HalloLabel");
 	
-	BottomLabel.setText("© Nikitin&Mahaeva 2015");
+	BottomLabel.setText("© Никитин&Махаева 2015");
 	
 	LogInPannel.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "log in"));
 	LogInPannel.setToolTipText("log in");
@@ -57,11 +54,11 @@ public class MainJFrame extends javax.swing.JFrame {
 		}
 	});
 	
-	LoginLabel.setText("LOGIN:");
-	LoginLabel.setToolTipText("Put your login here");
+	LoginLabel.setText("Логин");
+	LoginLabel.setToolTipText("введите логин");
 	
-	PasswordLabel.setText("PASSWORD:");
-	PasswordLabel.setToolTipText("Put your password here");
+	PasswordLabel.setText("Пароль:");
+	PasswordLabel.setToolTipText("введите пароль");
 	
 	PasswordTextField.setToolTipText("PasswordTextField");
 	
@@ -144,10 +141,10 @@ public class MainJFrame extends javax.swing.JFrame {
 		String password = PasswordTextField.getText();
 		if (service.login(username, password)){
 			this.setVisible(false);
-			//newFrame.setVisible(true); - типа делаешь новое окно видимым
+			UIManager.openMainFrame();
 		}
 		else {
-			JOptionPane.showMessageDialog(this, "Wrong login or password.");
+			JOptionPane.showMessageDialog(this, "Неправильный логин или пароль.");
 		}
 	} 
 	
@@ -198,6 +195,5 @@ public class MainJFrame extends javax.swing.JFrame {
 	private javax.swing.JLabel jLabel1;
 	@SuppressWarnings("unused")
 	private javax.swing.JScrollPane jScrollPane1;
-	private BusinessService service = ServiceFactory.getBusinessService();
 	// End of variables declaration 
 }

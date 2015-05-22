@@ -6,9 +6,13 @@ import com.iasa.ka23.ManagementSystem.bl.model.Counterparty;
 
 public interface BusinessService {
 	
-	public List<Counterparty> getCounterparties(int onPage, int pageNo);
+	List<Counterparty> getCounterparties(int onPage, int pageNo);
 
-	public boolean login(String username, String password);
+	boolean login(String username, String password);
+
+	void loadUser();
+
+	boolean enableAdminFeatures();
 	
 
 }

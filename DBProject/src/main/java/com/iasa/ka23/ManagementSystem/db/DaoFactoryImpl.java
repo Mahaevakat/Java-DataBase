@@ -1,5 +1,6 @@
 package com.iasa.ka23.ManagementSystem.db;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import com.iasa.ka23.ManagementSystem.bl.model.IdentifyableBean;
@@ -11,6 +12,10 @@ public class DaoFactoryImpl implements DaoFactory {
 	 * map that contains DAO objects
 	 */
 	private Map<Class<? extends IdentifyableBean>,GenericDao<? extends IdentifyableBean>> daos;
+	
+	public DaoFactoryImpl(){
+		daos = new HashMap<Class<? extends IdentifyableBean>, GenericDao<? extends IdentifyableBean>>();
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override

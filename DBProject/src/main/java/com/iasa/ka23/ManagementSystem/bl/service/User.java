@@ -1,15 +1,14 @@
 package com.iasa.ka23.ManagementSystem.bl.service;
 
-import java.util.Set;
 public class User {	
+	
+	private UserRole role;
 
 	private Integer id;
 
 	private String username;
 
 	private String password;	
-
-	private Set<UserRole> roles;
 
 	public Integer getId() {
 		return id;
@@ -35,11 +34,24 @@ public class User {
 		this.password = password;
 	}
 
-	public Set<UserRole> getRoles() {
-		return roles;
+	public UserRole getRole() {
+		return role;
 	}
 
-	public void setRoles(Set<UserRole> roles) {
-		this.roles = roles;
+	public void setRole(UserRole role) {
+		this.role = role;
+	}
+
+	public void setRole(String role2) {	
+		if ("admin_role".equals(role2)){
+			role = UserRole.ADMIN;
+		}
+		else {
+			if ("operator_role".equals(role2)){
+				role =UserRole.OPERATOR;
+			}
+			else throw new IllegalArgumentException("Inonsistence respond from database: \""
+			+ role + "\"");
+		}
 	}
 }
