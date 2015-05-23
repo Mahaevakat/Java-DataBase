@@ -30,15 +30,18 @@
 		   <property name="annotatedClasses">
 		     <list>
 		     		  <value>com.iasa.ka23.ManagementSystem.bl.model.Counterparty</value>
+		     		  <!-- 
 		     		  <value>com.iasa.ka23.ManagementSystem.bl.model.LegalPerson</value>
 		     		  <value>com.iasa.ka23.ManagementSystem.bl.model.IndividualPerson</value>
+		     		   -->
+		     		  <value>com.iasa.ka23.ManagementSystem.db.util.ProcedureStorage</value>
 			 </list>
  		  </property>
 	    <property name="hibernateProperties">
 	       <props>
     		<prop key="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</prop>
 	         <prop key="hibernate.show_sql">false</prop>
-	         <prop key="hibernate.hbm2ddl.auto">update</prop>
+	         <prop key="hibernate.hbm2ddl.auto">validate</prop>
 	         <prop key="hibernate.connection.autocommit">false</prop>
 	         <prop key="hibernate.current_session_context_class">thread</prop>
 	       </props>
@@ -53,9 +56,6 @@
 		   </bean>
 	
 	<!-- 2. Business Logic -->
-	
-	
-   	<bean id="userRole" class="com.iasa.ka23.ManagementSystem.bl.service.UserRole"/>
 	
    	<bean id="user" class="com.iasa.ka23.ManagementSystem.bl.service.User"/>
 	

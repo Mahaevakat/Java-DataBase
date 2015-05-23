@@ -1,4 +1,6 @@
-jdbc.driverClassName=net.sourceforge.jtds.jdbc.Driver
-jdbc.url=jdbc:jtds:sqlserver://127.0.0.1:1433/shopdb;instance=PACKARDBELL
+jdbc.driverClassNameJTDS=net.sourceforge.jtds.jdbc.Driver
+jdbc.urlJTDS=jdbc:jtds:sqlserver://127.0.0.1:1433/shopdb;instance=PACKARDBELL
+jdbc.driverClassName=com.microsoft.sqlserver.jdbc.SQLServerDriver
+jdbc.url=jdbc:sqlserver://127.0.0.1\\PACKARDBELL:1433;databaseName=shopdb
 jdbc.username=operator
 jdbc.password=mypass

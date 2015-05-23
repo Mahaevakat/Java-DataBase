@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.iasa.ka23.ManagementSystem.bl.model.IdentifyableBean;
-import com.iasa.ka23.ManagementSystem.db.util.ManagementSystemDaoException;
+import com.iasa.ka23.ManagementSystem.db.util.ManagementSystemDbException;
 
 public class DaoFactoryImpl implements DaoFactory {
 	
@@ -20,7 +20,7 @@ public class DaoFactoryImpl implements DaoFactory {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends IdentifyableBean> GenericDao<T> getDao(final Class<T> classVar)
-			throws ManagementSystemDaoException {
+			throws ManagementSystemDbException {
 		if (daos.containsKey(classVar)){
 			return (GenericDao<T>) daos.get(classVar);
 		}

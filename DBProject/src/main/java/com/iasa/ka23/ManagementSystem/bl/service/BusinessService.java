@@ -10,9 +10,9 @@ public interface BusinessService {
 
 	boolean login(String username, String password);
 
-	void loadUser();
-
 	boolean enableAdminFeatures();
+
+	void loadApp();
 	
 
 }

@@ -141,6 +141,7 @@ public class MainJFrame extends AbstractInterfaceUnit {
 		String password = PasswordTextField.getText();
 		if (service.login(username, password)){
 			this.setVisible(false);
+			service.loadApp();
 			UIManager.openMainFrame();
 		}
 		else {

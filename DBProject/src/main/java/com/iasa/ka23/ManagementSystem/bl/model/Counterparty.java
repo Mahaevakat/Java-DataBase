@@ -30,7 +30,7 @@ public class Counterparty extends IdentifyableBean implements Serializable, Clon
 	@Column(name="Phone_number")
 	private String number;
 
-	@OneToOne(fetch = FetchType.LAZY, mappedBy="counterparty")
+	/*@OneToOne(fetch = FetchType.LAZY, mappedBy="counterparty")
 	private LegalPerson legalPerson;
 
 	@OneToOne(fetch = FetchType.LAZY, mappedBy="counterparty")
@@ -42,7 +42,7 @@ public class Counterparty extends IdentifyableBean implements Serializable, Clon
 		name = individualPerson.getName();
 		}
 		return name;
-	}
+	}*/
 	
 	@Override
 	public Integer getId() {
@@ -69,13 +69,13 @@ public class Counterparty extends IdentifyableBean implements Serializable, Clon
 		this.number = number;
 	}
 
-	public LegalPerson getLegalPerson() {
+	/*public LegalPerson getLegalPerson() {
 		return legalPerson;
 	}
 
 	public void setLegalPerson(LegalPerson legalPerson) {
 		this.legalPerson = legalPerson;
-	}
+	}*/
 
 	@Override
 	public int hashCode() {

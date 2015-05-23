@@ -3,29 +3,23 @@ package com.iasa.ka23.ManagementSystem.db.util;
 import java.sql.SQLException;
 import java.util.List;
 
-import javax.persistence.NamedNativeQueries;
-import javax.persistence.NamedNativeQuery;
 import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.transform.Transformers;
 
 import com.iasa.ka23.ManagementSystem.bl.model.IdentifyableBean;
+import com.iasa.ka23.ManagementSystem.bl.model.RoleEntity;
 import com.iasa.ka23.ManagementSystem.bl.service.User;
 import com.iasa.ka23.ManagementSystem.db.DaoFactory;
 import com.iasa.ka23.ManagementSystem.db.GenericDao;
 
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
-@NamedNativeQueries({
-	@NamedNativeQuery(
-	name = "getUserRole",
-	query = "CALL GetUserRoleByName(:name)",
-	resultClass = String.class
-	)
-})
 public class DataBaseManager {
 	
 	/**
@@ -47,32 +41,45 @@ public class DataBaseManager {
 	}
 
 	private boolean testConnection() {
+
+		String url = null;
 		try{
 			String username = user.getUsername();
 			String password = user.getPassword();
 			((DriverManagerDataSource)dataSource).setUsername(username);
 			((DriverManagerDataSource)dataSource).setPassword(password);
-			String url = ((DriverManagerDataSource)dataSource).getUrl();
-			url+=";user=" + username + ";password=" + password;
-			((DriverManagerDataSource)dataSource).setUrl(url);
-			System.out.println((((DriverManagerDataSource)dataSource).getUrl()));
+			url = ((DriverManagerDataSource)dataSource).getUrl();
+			String newUrl = url + ";user=" + username + ";password=" + password;
+			((DriverManagerDataSource)dataSource).setUrl(newUrl);
 			dataSource.getConnection();
 		} catch (SQLException exception){
 			Logger.getLogger(getClass()).error(exception);
+			((DriverManagerDataSource)dataSource).setUrl(url);			
 			return false;
 		}
 		return true;
 	}
 	
+	//TODO - fix this crap!
 	public void loadUserRole(){
-		Query query = session.getNamedQuery("callStockStoreProcedure")
-			.setParameter("name", user.getUsername());
+		Query query  = null;
+		String username;
+		try{
+			query = session.createSQLQuery("EXEC dbo.GetRoleOfCurrentUser")//()
+					.addEntity(RoleEntity.class)
+					.addScalar("role_name",Hibernate.STRING)					
+					.setParameter(0, 0);
+		} catch (Exception e){
+			Logger.getLogger(this.getClass()).error(e);
+			System.err.println(e);
+		}
 		@SuppressWarnings("unchecked")
 		List<String> result = (List<String>)query.list();
 		String role = result.get(0);
-		user.setRole(role);
+		System.out.println("role is" + role);
+		user.setRoleByName(role);
 	}
-	public <T extends IdentifyableBean> GenericDao<T> getDao(Class<T> classVar) throws ManagementSystemDaoException{
+	public <T extends IdentifyableBean> GenericDao<T> getDao(Class<T> classVar) throws ManagementSystemDbException{
 		return daoFactory.getDao(classVar);
 	}
 	
@@ -107,4 +114,5 @@ public class DataBaseManager {
 	public void setDataSource(DataSource dataSource) {
 		this.dataSource = dataSource;
 	}
+	
 }

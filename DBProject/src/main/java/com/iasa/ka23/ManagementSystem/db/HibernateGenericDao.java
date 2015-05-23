@@ -8,13 +8,14 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.classic.Session;
 
-import com.iasa.ka23.ManagementSystem.db.util.ManagementSystemDaoException;
+import com.iasa.ka23.ManagementSystem.commons.SpringContextLoader;
+import com.iasa.ka23.ManagementSystem.db.util.ManagementSystemDbException;
 
 
 
 public abstract class HibernateGenericDao <T> implements GenericDao<T> {
 	
-	private SessionFactory sessionFactory;
+	private SessionFactory sessionFactory = SpringContextLoader.getBean("sessionFactory");
 
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;
@@ -70,7 +71,7 @@ public abstract class HibernateGenericDao <T> implements GenericDao<T> {
 	
 	@Override
 	public List<T> getDefaultPaginated(int numberOfPage, int recordsPerPage)
-			throws ManagementSystemDaoException {
+			throws ManagementSystemDbException {
 		SessionFactory factory =  getSessionFactory();
 		Session session = factory.openSession();
 		List<T> result = retrieveInstancesPaginated(session, numberOfPage, recordsPerPage);

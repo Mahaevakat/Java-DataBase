@@ -13,6 +13,7 @@ public abstract class AbstractInterfaceUnit extends javax.swing.JFrame{
 	
 	public AbstractInterfaceUnit(){
 		service = SpringContextLoader.getBean("businessService");
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 	
 	public abstract void initComponents();

@@ -5,7 +5,7 @@ import java.util.List;
 import com.iasa.ka23.ManagementSystem.bl.model.Counterparty;
 import com.iasa.ka23.ManagementSystem.db.GenericDao;
 import com.iasa.ka23.ManagementSystem.db.util.DataBaseManager;
-import com.iasa.ka23.ManagementSystem.db.util.ManagementSystemDaoException;
+import com.iasa.ka23.ManagementSystem.db.util.ManagementSystemDbException;
 
 public class BusinessServiceImpl implements BusinessService{
 
@@ -36,7 +36,7 @@ public class BusinessServiceImpl implements BusinessService{
 			System.out.println(databaseManager);
 			GenericDao<Counterparty> dao = databaseManager.getDao(Counterparty.class);
 			value = dao.getAll().size();
-		} catch (ManagementSystemDaoException e) {
+		} catch (ManagementSystemDbException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -50,7 +50,7 @@ public class BusinessServiceImpl implements BusinessService{
 		try {
 			dao = databaseManager.getDao(Counterparty.class);
 			result  = dao.getAll();
-		} catch (ManagementSystemDaoException e) {
+		} catch (ManagementSystemDbException e) {
 			// TODO Auto-generated catch block
 			//TODO - change to paginated
 			e.printStackTrace();
@@ -65,8 +65,7 @@ public class BusinessServiceImpl implements BusinessService{
 		return databaseManager.login();
 	}
 	
-	@Override
-	public void loadUser(){
+	private void loadUser(){
 		databaseManager.loadUserRole();
 	}
 	
@@ -74,5 +73,14 @@ public class BusinessServiceImpl implements BusinessService{
 	public boolean enableAdminFeatures(){
 		UserRole currentUserRole = user.getRole();
 		return (UserRole.ADMIN.equals(currentUserRole));
+	}
+
+	/**
+	 * All logic in this method is being executed only one - when app has booted normally 
+	 * and needs to perform some additional actions.
+	 */
+	@Override
+	public void loadApp() {
+		//loadUser();		
 	}
 }

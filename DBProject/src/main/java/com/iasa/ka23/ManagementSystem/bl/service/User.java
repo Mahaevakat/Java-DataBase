@@ -42,7 +42,7 @@ public class User {
 		this.role = role;
 	}
 
-	public void setRole(String role2) {	
+	public void setRoleByName(String role2) {	
 		if ("admin_role".equals(role2)){
 			role = UserRole.ADMIN;
 		}
