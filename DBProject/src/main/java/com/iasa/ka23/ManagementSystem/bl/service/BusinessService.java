@@ -10,9 +10,11 @@ public interface BusinessService {
 
 	boolean login(String username, String password);
 
-	boolean enableAdminFeatures();
-
 	void loadApp();
+
+	boolean addCounterparty(String number, String mail);
+
+	boolean enableHrAdminFeatures();
 	
 
 }

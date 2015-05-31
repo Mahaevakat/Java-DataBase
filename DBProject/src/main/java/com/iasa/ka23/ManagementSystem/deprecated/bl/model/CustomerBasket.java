@@ -1,4 +1,4 @@
-package com.iasa.ka23.ManagementSystem.bl.deprecatedmodel;
+package com.iasa.ka23.ManagementSystem.deprecated.bl.model;
 
 import java.io.Serializable;
 import java.util.Date;

@@ -1,6 +1,11 @@
 package com.iasa.ka23.ManagementSystem.db.util;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -10,13 +15,15 @@ import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.transform.Transformers;
+import org.hibernate.jdbc.Work;
+import org.hibernate.type.StringType;
 
+import com.iasa.ka23.ManagementSystem.bl.model.Counterparty;
 import com.iasa.ka23.ManagementSystem.bl.model.IdentifyableBean;
-import com.iasa.ka23.ManagementSystem.bl.model.RoleEntity;
 import com.iasa.ka23.ManagementSystem.bl.service.User;
 import com.iasa.ka23.ManagementSystem.db.DaoFactory;
 import com.iasa.ka23.ManagementSystem.db.GenericDao;
+import com.iasa.ka23.ManagementSystem.db.HibernateGenericDao;
 
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
@@ -34,7 +41,7 @@ public class DataBaseManager {
 	
 	private DataSource dataSource;
 	
-	private Session session;
+	private static Session session;	
 	
 	public boolean login(){
 			return testConnection();
@@ -60,25 +67,77 @@ public class DataBaseManager {
 		return true;
 	}
 	
-	//TODO - fix this crap!
 	public void loadUserRole(){
-		Query query  = null;
-		String username;
+		session = HibernateGenericDao.getSessionFactory().openSession();	
+		/*
+		session.doWork(
+			    new Work() {
+			        public void execute(Connection connection) throws SQLException 
+			        { 
+			        	CallableStatement call = connection.prepareCall( "{? = call [dbo].[GetRoleOfCurrentUser]}");
+			        	call.registerOutParameter(1, Types.JAVA_OBJECT);
+			    		call.execute();	
+			    		String result = call.getObject(1).toString();
+			    		System.out.println(result.getClass());
+			    		user.setRoleByName(result);
+			        }
+			    }
+			);
+			*/
+		
+		/*EXAMPLES FROM THE INTERNET*/
+		
+		Query query = session.createSQLQuery(
+				"{call [dbo].[GetRoleOfCurrentUser] }")  
+				.addScalar("role_name", StringType.INSTANCE);			 
+			List<Object> list = query.list();
+	        user.setRoleByName( (String)list.get(0));
+		
+		/*
+		@SuppressWarnings("unchecked")
+		List<RoleEntity> list = session
+        .createSQLQuery("{call [dbo].[GetRoleOfCurrentUser] }")
+        .addScalar("role_name", org.hibernate.type.StringType.INSTANCE)
+        .setResultTransformer(Transformers.aliasToBean(RoleEntity.class))
+        .list();
+        RoleEntity result =  list.get(0);
+        user.setRoleByName(result.role_name);
+        */
+        
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Counterparty getCounterpartyByStoredProcedure(){
+		/*Query query  = null;
+		session = HibernateGenericDao.getSessionFactory().openSession();	
 		try{
-			query = session.createSQLQuery("EXEC dbo.GetRoleOfCurrentUser")//()
-					.addEntity(RoleEntity.class)
-					.addScalar("role_name",Hibernate.STRING)					
-					.setParameter(0, 0);
+			query = session.createSQLQuery("{CALL [dbo].[GetCounterparty][(:id)]}")//()
+					.addEntity(Counterparty.class)
+					.setParameter("id", "1");
 		} catch (Exception e){
 			Logger.getLogger(this.getClass()).error(e);
 			System.err.println(e);
 		}
-		@SuppressWarnings("unchecked")
-		List<String> result = (List<String>)query.list();
-		String role = result.get(0);
-		System.out.println("role is" + role);
-		user.setRoleByName(role);
+		@SuppressWarnings("rawtypes")
+		List resultList = query.list();	
+		return (Counterparty)resultList.get(0);*/
+		session = HibernateGenericDao.getSessionFactory().openSession();	
+		final Counterparty result = null;
+		session.doWork(
+			    new Work() {
+			        public void execute(Connection connection) throws SQLException 
+			        { 
+			        	CallableStatement call = connection.prepareCall( "{call [dbo].[GetCounterparty][(:id)]}");
+			        	call.registerOutParameter(1,Types.JAVA_OBJECT,"dbo.Counterparty");
+			        	call.setInt(1, 1);
+			    		call.execute();
+			    		//result = (Counterparty)call.getBlob(1);
+			        }
+			    }
+			); 
+		return result;
 	}
+	
 	public <T extends IdentifyableBean> GenericDao<T> getDao(Class<T> classVar) throws ManagementSystemDbException{
 		return daoFactory.getDao(classVar);
 	}

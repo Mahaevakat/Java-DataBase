@@ -2,6 +2,7 @@ package com.iasa.ka23.ManagementSystem.bl.service;
 
 public class User {	
 	
+
 	private UserRole role;
 
 	private Integer id;
@@ -9,6 +10,8 @@ public class User {
 	private String username;
 
 	private String password;	
+
+	private static final String ERR_DENIED = "Access denied for following user:";
 
 	public Integer getId() {
 		return id;
@@ -43,15 +46,10 @@ public class User {
 	}
 
 	public void setRoleByName(String role2) {	
-		if ("admin_role".equals(role2)){
-			role = UserRole.ADMIN;
-		}
-		else {
-			if ("operator_role".equals(role2)){
-				role =UserRole.OPERATOR;
-			}
-			else throw new IllegalArgumentException("Inonsistence respond from database: \""
-			+ role + "\"");
+		try {
+			role = UserRole.valueOf(role2); 
+		}	catch (Exception e){
+			throw new IllegalArgumentException(ERR_DENIED + role2);
 		}
 	}
 }

@@ -6,7 +6,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.classic.Session;
+import org.hibernate.Session;
 
 import com.iasa.ka23.ManagementSystem.commons.SpringContextLoader;
 import com.iasa.ka23.ManagementSystem.db.util.ManagementSystemDbException;
@@ -15,15 +15,15 @@ import com.iasa.ka23.ManagementSystem.db.util.ManagementSystemDbException;
 
 public abstract class HibernateGenericDao <T> implements GenericDao<T> {
 	
-	private SessionFactory sessionFactory = SpringContextLoader.getBean("sessionFactory");
+	private static SessionFactory sessionFactory = SpringContextLoader.getBean("sessionFactory");
 
-	public SessionFactory getSessionFactory() {
+	public static SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
 
 
-	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
+	public static void setSessionFactory(SessionFactory sessionFactory1) {
+		sessionFactory = sessionFactory1;
 	}
 
 

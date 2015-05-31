@@ -2,7 +2,10 @@ package com.iasa.ka23.ManagementSystem.bl.service;
 
 import java.util.List;
 
+import javax.management.relation.Role;
+
 import com.iasa.ka23.ManagementSystem.bl.model.Counterparty;
+import com.iasa.ka23.ManagementSystem.db.DaoFactoryImpl;
 import com.iasa.ka23.ManagementSystem.db.GenericDao;
 import com.iasa.ka23.ManagementSystem.db.util.DataBaseManager;
 import com.iasa.ka23.ManagementSystem.db.util.ManagementSystemDbException;
@@ -10,6 +13,8 @@ import com.iasa.ka23.ManagementSystem.db.util.ManagementSystemDbException;
 public class BusinessServiceImpl implements BusinessService{
 
 	private DataBaseManager databaseManager;
+	
+	private static int id = 2000;
 
 	private User user;
 	
@@ -66,13 +71,18 @@ public class BusinessServiceImpl implements BusinessService{
 	}
 	
 	private void loadUser(){
+		//TODO - fix this stub		
+		/*
+		System.out.println("counterparty with id=1: email");
+		Counterparty counterparty = databaseManager.getCounterpartyByStoredProcedure();
+		System.out.println(counterparty.getEmail());
+		*/
 		databaseManager.loadUserRole();
 	}
 	
 	@Override
-	public boolean enableAdminFeatures(){
-		UserRole currentUserRole = user.getRole();
-		return (UserRole.ADMIN.equals(currentUserRole));
+	public boolean enableHrAdminFeatures(){
+		return Authentificator.isHrAdmin();
 	}
 
 	/**
@@ -81,6 +91,38 @@ public class BusinessServiceImpl implements BusinessService{
 	 */
 	@Override
 	public void loadApp() {
-		//loadUser();		
+		loadUser();		
+	}
+
+
+	//TODO - move bl logic to bl layer
+	@Override
+	public boolean addCounterparty(String number, String mail) {
+		if (number==null){
+			return false;
+		}
+		if (mail==null){
+			return false;
+		}
+		Integer phone = null;
+		try{
+		phone = Integer.parseInt(number);
+		}catch (Exception e){
+			return false;
+		}
+		Counterparty c = new Counterparty();
+		c.setId(id++);
+		c.setEmail(mail);
+		c.setNumber(phone);
+		GenericDao<Counterparty> dao  = null;
+		try {
+			dao = databaseManager.getDao(Counterparty.class);
+			dao.create(c);
+		} catch (ManagementSystemDbException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return true;
 	}
 }

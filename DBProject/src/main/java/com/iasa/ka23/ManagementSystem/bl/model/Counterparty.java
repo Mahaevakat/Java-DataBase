@@ -20,7 +20,7 @@ public class Counterparty extends IdentifyableBean implements Serializable, Clon
 	private static final long serialVersionUID = 1L;
 
 	@Id
-    @GeneratedValue
+    //@GeneratedValue
     @Column(columnDefinition="serial",name="id_counterparty")
 	private Integer id;
 	
@@ -28,7 +28,7 @@ public class Counterparty extends IdentifyableBean implements Serializable, Clon
 	private String email;
 	
 	@Column(name="Phone_number")
-	private String number;
+	private Integer number;
 
 	/*@OneToOne(fetch = FetchType.LAZY, mappedBy="counterparty")
 	private LegalPerson legalPerson;
@@ -44,6 +44,14 @@ public class Counterparty extends IdentifyableBean implements Serializable, Clon
 		return name;
 	}*/
 	
+	public Integer getNumber() {
+		return number;
+	}
+
+	public void setNumber(Integer number) {
+		this.number = number;
+	}
+
 	@Override
 	public Integer getId() {
 		return id;
@@ -61,13 +69,7 @@ public class Counterparty extends IdentifyableBean implements Serializable, Clon
 		this.email = email;
 	}
 
-	public String getNumber() {
-		return number;
-	}
-
-	public void setNumber(String number) {
-		this.number = number;
-	}
+	
 
 	/*public LegalPerson getLegalPerson() {
 		return legalPerson;
